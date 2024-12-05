@@ -1,5 +1,3 @@
-import itertools
-
 r, p = open('5.txt').read().split('\n\n')
 
 rules = [tuple(l.split('|')) for l in r.split('\n')]
@@ -22,17 +20,16 @@ s = 0
 for pp in pages:
   reordered = False
   while True:
-    e = False
+    in_order = True
     for l, r in rules:
       if l in pp and r in pp:
         if pp.index(l) > pp.index(r):
           reordered = True
-          e = True
+          in_order = False
           pp[pp.index(l)], pp[pp.index(r)] = pp[pp.index(r)], pp[pp.index(l)]
     if not reordered:
       break
-    if reordered and not e:
-      print(pp)
+    if reordered and in_order:
       i = len(pp) // 2
       s += int(pp[i])
       break
