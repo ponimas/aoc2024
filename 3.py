@@ -14,12 +14,12 @@ rx = re.compile(r'(mul\((?P<a>\d{1,3}),(?P<b>\d{1,3})\))|(?P<do>do\(\))|(?P<dont
 state = 'do'
 sum = 0
 for r in rx.finditer(data):
-  if r.groupdict()['do']:
-    state = 'do'
-    continue
-  if r.groupdict()['dont']:
-    state = 'dont'
-  if state == 'dont':
-    continue
-  sum += int(r.groupdict()['a']) * int(r.groupdict()['b'])
+    if r.groupdict()['do']:
+        state = 'do'
+        continue
+    if r.groupdict()['dont']:
+        state = 'dont'
+    if state == 'dont':
+        continue
+    sum += int(r.groupdict()['a']) * int(r.groupdict()['b'])
 print(sum)

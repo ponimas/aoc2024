@@ -5,9 +5,9 @@ data = open('1.txt').readlines()
 a, b = list(), list()
 
 for l in data:
-  x, y = [int(i) for i in l.split()]
-  a.append(x)
-  b.append(y)
+    x, y = [int(i) for i in l.split()]
+    a.append(x)
+    b.append(y)
 
 a.sort()
 b.sort()
