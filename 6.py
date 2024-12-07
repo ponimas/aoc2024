@@ -1,10 +1,11 @@
 from collections import defaultdict, namedtuple
-from bisect import bisect_right, bisect_left
 
 f = 'test.txt'
+f = '6.txt'
 
-mx = defaultdict(list)
-my = defaultdict(list)
+none = lambda: None
+lab = defaultdict(lambda: defaultdict(none))
+
 point = namedtuple('point', ['x', 'y'])
 
 r = open(f).readlines()
@@ -12,101 +13,38 @@ sz = (len(r[0].strip()) - 1, len(r) - 1)
 
 for y, l in enumerate(r):
     for x, p in enumerate(l.strip()):
+        if p == '#':
+            lab[x][y] = '#'
+            continue
         if p != '.':
-            if p != '#':
-                pos = point(x, y)
-                g = p
-            else:
-                mx[x].append(y)
-                my[y].append(x)
+            pos = point(x, y)
+            g = p
+        lab[x][y] = '.'
 
-dist = set([pos])
-dist_t = set([(pos, g)])
-stop = False
-c = 0
+# pprint(lab)
+
+deltas = {'>': (1, 0), '<': (-1, 0), '^': (0, -1), 'v': (0, 1)}
+turns = {'>': 'v', '<': '^', '^': '>', 'v': '<'}
+
+visited = set()
+
+p = pos
+d = g
 
 while True:
-    if g == '^':
-        b = bisect_left(mx[pos.x], pos.y)
-        if b == 0:
-            ny = 0
-            stop = True
-        else:
-            ny = mx[pos.x][b - 1] + 1
-        # print("next is", pos.x, ny, ">")
-        for y in range(ny, pos.y):
-            np = point(pos.x, y)
-            if np in dist:
-                c += 1
-                print(np)
-            # print()
-            dist.add(np)
-        if stop:
-            break
-        pos = point(pos.x, ny)
-        g = '>'
-        continue
+    delta = deltas[d]
+    nx = p.x + delta[0]
+    ny = p.y + delta[1]
+    nxt = lab[nx][ny]
 
-    elif g == 'v':
-        b = bisect_right(mx[pos.x], pos.y)
-        if b == len(mx[pos.x]):
-            ny = sz[1]
-            stop = True
-        else:
-            ny = mx[pos.x][b] - 1
-        # print("next is", pos.x, ny, "<")
-        for y in range(pos.y, ny + 1):
-            np = point(pos.x, y)
-            if np in dist:
-                c += 1
-                print(np)
-            # print(point(pos.x, y))
-            dist.add(np)
-        if stop:
-            break
-        pos = point(pos.x, ny)
-        g = '<'
-        continue
+    if nxt == '#':
+        d = turns[d]
+        # print("turn", d)
+    elif nxt is None:
+        break
+    else:
+        # print(p)
+        p = point(nx, ny)
+        visited.add(p)
 
-    elif g == '>':
-        b = bisect_right(my[pos.y], pos.x)
-        if b == len(my[pos.y]):
-            nx = sz[0]
-            stop = True
-        else:
-            nx = my[pos.y][b] - 1
-        # print("next is", nx, pos.y, "v")
-        for x in range(pos.x, nx + 1):
-            np = point(x, pos.y)
-            if np in dist:
-                c += 1
-                print(np)
-            dist.add(np)
-        if stop:
-            break
-        pos = point(nx, pos.y)
-        g = 'v'
-        continue
-    elif g == '<':
-        b = bisect_left(my[pos.y], pos.x)
-        if b == 0:
-            nx = 0
-            stop = True
-        else:
-            nx = my[pos.y][b - 1] + 1
-        # print("next is", nx, pos.y, "^")
-        for x in range(nx, pos.x):
-            np = point(x, pos.y)
-            if np in dist:
-                c += 1
-                print(np)
-            # print(point(x, pos.y))
-            dist.add(np)
-        if stop:
-            break
-        pos = point(nx, pos.y)
-        g = '^'
-        continue
-
-print(len(dist))
-print(c)
+print(len(visited))

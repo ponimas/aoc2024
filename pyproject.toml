@@ -8,4 +8,4 @@ indent-style = "space"
 docstring-code-format = true
 
 [tool.ruff.lint]
-ignore = ["E741"]
+ignore = ["E741", "E731"]
