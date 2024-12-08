@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 data = open('4.txt').readlines()
 
 grid = {}

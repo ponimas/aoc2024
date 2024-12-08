@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 r, p = open('5.txt').read().split('\n\n')
 
 rules = [tuple(l.split('|')) for l in r.split('\n')]

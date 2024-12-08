@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 import itertools
 
 data = open('2.txt').readlines()

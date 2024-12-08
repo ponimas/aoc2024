@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 from operator import mul, add
 from itertools import product
 
