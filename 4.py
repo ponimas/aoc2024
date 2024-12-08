@@ -1,6 +1,3 @@
-import itertools
-from pprint import pprint
-
 data = open('4.txt').readlines()
 
 grid = {}
