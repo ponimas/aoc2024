@@ -1,34 +1,39 @@
 #!/usr/bin/env python3
-from collections import deque
+from collections import defaultdict
 
 f = 'test.txt'
-# f = "11.txt"
+f = '11.txt'
 
 stones = open(f).readline().strip().split(' ')
 # print(stones)
 
+cache_map = defaultdict(lambda: defaultdict(lambda: None))
+cache = dict()
 
-q = deque(stones)
 
+def cal(s, steps):
+    cached = cache.get((s, steps))
+    if cached is not None:
+        return cached
 
-def transform(stones):
-    for _ in range(len(q)):
-        stone = q.popleft()
-        if stone == '0':
-            q.append('1')
-        elif len(stone) % 2 == 0:
-            mid = len(stone) // 2
-            l = stone[:mid]
-            r = stone[mid:].lstrip('0') or '0'
+    v = cache_map[s]
+    if isinstance(v, tuple):
+        cache[(s, steps)] = 2 if steps == 1 else cal(v[0], steps - 1) + cal(v[1], steps - 1)
 
-            q.append(l)
-            q.append(r)
+        return cache[(s, steps)]
+    elif isinstance(v, str):
+        cache[(s, steps)] = 1 if steps == 1 else cal(v, steps - 1)
+        return cache[(s, steps)]
+    else:
+        if s == '0':
+            cache_map[s] = '1'
+        elif len(s) % 2 == 0:
+            mid = len(s) // 2
+            cache_map[s] = (s[:mid], s[mid:].lstrip('0') or '0')
         else:
-            q.append(str(int(stone) * 2024))
+            cache_map[s] = str(int(s) * 2024)
+
+        return cal(s, steps)
 
 
-for i in range(25):
-    transform(stones)
-
-# print(q)
-print(len(q))
+print(sum(cal(i, 75) for i in stones))
