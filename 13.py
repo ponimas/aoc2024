@@ -19,9 +19,6 @@ for machine in machines:
     xb, yb = (machine['xb'], machine['yb'])
     xp, yp = (machine['xp'], machine['yp'])
 
-    def dist(x, y):
-        return (xp - x) ** 2 + (yp - y) ** 2
-
     p = (0, 0)
     q = [(0, p)]
 
