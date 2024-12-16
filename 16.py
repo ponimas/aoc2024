@@ -34,22 +34,28 @@ moves = {
 
 q = [pos]
 visited = {}
+finished = False
 
 while len(q):
+    if finished:
+        break
     i = heappop(q)
     for dy, dx, dd in moves[i.d]:
         nx, ny = i.x + dx, i.y + dy
         if m[ny][nx] == '#':
             continue
 
+        if m[ny][nx] == 'E':
+            print(i.score + 1)
+            finished = True
+            break
+
         nscore = i.score + 1
 
         if i.d != dd:
             nscore += 1000
 
-        if (ny, nx) in visited and visited[(ny, nx)] < nscore:
+        if (ny, nx, dd) in visited and visited[(ny, nx, dd)] < nscore:
             continue
-        visited[(ny, nx)] = nscore
+        visited[(ny, nx, dd)] = nscore
         heappush(q, Item(nscore, ny, nx, dd))
-
-print(visited[end])
