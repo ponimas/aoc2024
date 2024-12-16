@@ -49,8 +49,6 @@ while len(q):
 
         if (ny, nx) in visited and visited[(ny, nx)] < nscore:
             continue
-        if nscore == 105508:
-            print(ny, nx, end)
         visited[(ny, nx)] = nscore
         heappush(q, Item(nscore, ny, nx, dd))
 
