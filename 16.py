@@ -1,7 +1,8 @@
 #!/usr/bin/env python3.13
 from heapq import heappush, heappop
 from dataclasses import dataclass, field
-
+from copy import copy
+from typing import Any
 
 f = 'test.txt'
 f = '16.txt'
@@ -13,7 +14,8 @@ class Item:
     y: int = field(compare=False)
     x: int = field(compare=False)
     d: str = field(compare=False)
-    # track: Any = field(compare=False)
+
+    track: Any = field(compare=False)
 
 
 m = open(f).readlines()
@@ -21,7 +23,7 @@ m = open(f).readlines()
 for y, l in enumerate(m):
     for x, c in enumerate(l):
         if c == 'S':
-            pos = Item(0, y, x, 'E')
+            pos = Item(0, y, x, 'E', [(y, x)])
         if c == 'E':
             end = (y, x)
 moves = {
@@ -34,22 +36,23 @@ moves = {
 
 q = [pos]
 visited = {}
-finished = False
+
+paths = []
 
 while len(q):
-    if finished:
-        break
     i = heappop(q)
+
+    if m[i.y][i.x] == 'E':
+        paths.append((i.score, i.track))
+        continue
+
     for dy, dx, dd in moves[i.d]:
         nx, ny = i.x + dx, i.y + dy
         if m[ny][nx] == '#':
             continue
 
-        if m[ny][nx] == 'E':
-            print(i.score + 1)
-            finished = True
-            break
-
+        ntrack = copy(i.track)
+        ntrack.append((ny, nx))
         nscore = i.score + 1
 
         if i.d != dd:
@@ -58,4 +61,17 @@ while len(q):
         if (ny, nx, dd) in visited and visited[(ny, nx, dd)] < nscore:
             continue
         visited[(ny, nx, dd)] = nscore
-        heappush(q, Item(nscore, ny, nx, dd))
+        heappush(q, Item(nscore, ny, nx, dd, ntrack))
+
+paths.sort(key=lambda x: x[0])
+[s, p], *rest = paths
+
+print(s)
+
+p = set(p)
+for ss, pp in rest:
+    if ss != s:
+        continue
+    p |= set(pp)
+
+print(len(p))
