@@ -41,3 +41,10 @@ for machine in machines:
         heapq.heappush(q, (c + 1, db))
 
 print(spent)
+
+for machine in machines:
+    xa, ya = (machine['xa'], machine['ya'])
+    xb, yb = (machine['xb'], machine['yb'])
+    xp, yp = (machine['xp'], machine['yp'])
+    mx = min([xa, xb])
+    my = min([xa, xb])
