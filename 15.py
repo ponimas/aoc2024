@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 
 from collections import deque
+import time
 
 f = 'test.txt'
-# f = "15.txt"
+f = '15.txt'
 
 a, b = open(f).read().split('\n\n')
 
@@ -100,75 +101,82 @@ def move2(p, m):
                 return p
             if j == '.':
                 break
-        ww[p[0]][p[1] : nx] = ww[p[0]][p[1] - 1 : nx - 1]
+        ww[p[0]][p[1] : nx + 1] = ww[p[0]][p[1] - 1 : nx]
         ww[p[0]][p[1]] = '.'
         return (p[0], p[1] + 1)
     if m == '^':
-        if ww[p[0] - 1][p[1]] == '[':
-            b = (p[0] - 1, p[1])
-        elif ww[p[0] - 1][p[1]] == ']':
-            b = (p[0] - 1, p[1] - 1)
-        elif ww[p[0] - 1][p[1]] == '#':
+        dy = -1
+    else:
+        dy = 1
+
+    if ww[p[0] + dy][p[1]] == '[':
+        b = (p[0] + dy, p[1])
+    elif ww[p[0] + dy][p[1]] == ']':
+        b = (p[0] + dy, p[1] - 1)
+    elif ww[p[0] + dy][p[1]] == '#':
+        return p
+    else:
+        ww[p[0] + dy][p[1]], ww[p[0]][p[1]] = '@', '.'
+        return (p[0] + dy, p[1])
+
+    affected = {b}
+    q = deque([b])
+
+    while len(q) > 0:
+        (by, bx) = q.popleft()
+
+        if ww[by + dy][bx] == '.' and ww[by + dy][bx + 1] == '.':
+            continue
+
+        if ww[by + dy][bx] == '#' or ww[by + dy][bx + 1] == '#':
+            # block
             return p
-        else:
-            ww[p[0] - 1][p[1]], ww[p[0]][p[1]] = '@', '.'
-            return (p[0] - 1, p[1])
 
-        affected = {b}
-        q = deque([b])
-
-        while len(q) > 0:
-            (by, bx) = q.popleft()
-
-            if ww[by - 1][bx] == '.' and ww[by - 1][bx + 1] == '.':
+        if ww[by + dy][bx] == ']':
+            nn = (by + dy, bx - 1)
+            if nn in affected:
                 continue
+            affected.add(nn)
+            q.appendleft(nn)
+        if ww[by + dy][bx + 1] == '[':
+            nn = (by + dy, bx + 1)
+            if nn in affected:
+                continue
+            affected.add(nn)
+            q.appendleft(nn)
+        if ww[by + dy][bx] == '[':
+            nn = (by + dy, bx)
+            if nn in affected:
+                continue
+            affected.add(nn)
+            q.appendleft(nn)
+    a = list(affected)
+    a.sort(key=lambda x: x[0] * -dy)
+    for y, x in a:
+        ww[y + dy][x], ww[y + dy][x + 1], ww[y][x], ww[y][x + 1] = (
+            ww[y][x],
+            ww[y][x + 1],
+            ww[y + dy][x],
+            ww[y + dy][x + 1],
+        )
+    ww[p[0]][p[1]], ww[p[0] + dy][p[1]] = ww[p[0] + dy][p[1]], ww[p[0]][p[1]]
 
-            if ww[by - 1][bx] == '#' or ww[by - 1][bx + 1] == '#':
-                # block
-                return p
-
-            if ww[by - 1][bx] == ']':
-                nn = (by - 1, bx - 1)
-                if nn in affected:
-                    continue
-                affected.add(nn)
-                q.appendleft(nn)
-            if ww[by - 1][bx + 1] == '[':
-                nn = (by - 1, bx + 1)
-                if nn in affected:
-                    continue
-                affected.add(nn)
-                q.appendleft(nn)
-            if ww[by - 1][bx] == '[':
-                nn = (by - 1, bx)
-                if nn in affected:
-                    continue
-                affected.add(nn)
-                q.appendleft(nn)
-        a = list(affected)
-        a.sort()
-        for y, x in a:
-            ww[y - 1][x], ww[y - 1][x + 1], ww[y][x], ww[y][x + 1] = (
-                ww[y][x],
-                ww[y][x + 1],
-                ww[y - 1][x],
-                ww[y - 1][x + 1],
-            )
-        ww[p[0]][p[1]], ww[p[0] - 1][p[1]] = ww[p[0] - 1][p[1]], ww[p[0]][p[1]]
-    if m == 'v':
-        if ww[p[0] + 1][p[1]] == '[':
-            b = (p[0] + 1, p[1])
-        elif ww[p[0] + 1][p[1]] == ']':
-            b = (p[0] + 1, p[1] - 1)
-        elif ww[p[0] + 1][p[1]] == '#':
-            return p
-        else:
-            ww[p[0] + 1][p[1]], ww[p[0]][p[1]] = '@', '.'
-            return (p[0] + 1, p[1])
-    return p
+    return (p[0] + dy, p[1])
 
 
-for m in moves[:6]:
-    prn(ww)
+prn(ww)
+for m in moves:
+    print('\033[H\033[J', end='')
+    time.sleep(0.001)
+    # prn(m)
     pos = move2(pos, m)
     prn(ww)
+    # input()
+
+
+s = 0
+for y, l in enumerate(ww):
+    for x, p in enumerate(l):
+        if p == '[':
+            s += 100 * y + x
+print(s)
