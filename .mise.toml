@@ -1,0 +1,3 @@
+[tools]
+# mise link --force python@brew13 /opt/homebrew/opt/python@3.13
+python = {version='brew13', virtualenv='.venv'}
