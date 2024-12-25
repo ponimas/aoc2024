@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-from collections import defaultdict, deque
+from collections import defaultdict
 from itertools import combinations
 
 # from pprint import pprint as print
-from pyrsistent import v
+from pyrsistent import pset
 
 f = "test.23.txt"
 f = "23.input.txt"
@@ -14,8 +14,6 @@ for l in open(f):
     a, b = l.strip().split("-")
     g[a].add(b)
     g[b].add(a)
-
-# print(g)
 
 # part 1
 components = set()
@@ -29,48 +27,25 @@ for c in g.keys():
 
 print(len(components))
 
-
-R = set()
-X = set()
-P = list(g.keys())
+# part 2
+# https://www.youtube.com/watch?v=j_uQChgo72I
 
 
-# def bron_kerbosch(R, P, X):
-#     if not P and not X:
-#         print(R)  # Максимальная клика найдена
-#         return
-#     for v in P[:]:
-#         bron_kerbosch(
-#             R + [v], [u for u in P if u in neighbors[v]], [u for u in X if u in neighbors[v]]
-#         )
-#         P.remove(v)
-#         X.append(v)
+def bron_kerbosch(R, P, X):
+    if not P and not X:
+        cliques.append(R)
+        return
+    for v in P:
+        bron_kerbosch(R.add(v), P & g[v], X & g[v])
+        P = P.remove(v)
+        X = X.add(v)
 
 
-components = list()
-for c in g.keys():
-    q = deque()
-    q.append(v(c))
+R = pset()
+X = pset()
+P = pset(g.keys())
+cliques = []
 
-    while len(q):
-        p = q.popleft()
-        l = p[-1]
-        # print(p)
-        for x in g[l]:
-            for c in components:
-                if len(c - {l, x}) == 0:
-                    continue
-            for enc in list(q):
-                if len(set(enc) - {l, x}) == 0:
-                    continue
-            if x in p:
-                continue
-
-            if len(set(p) - g[x]) == 0:
-                np = p.append(x)
-                q.appendleft(np)
-    print(p)
-    components.append(set(p))
-    print(tuple(sorted(p)))
-
-print(sorted(components, key=len)[-1])
+bron_kerbosch(R, P, X)
+cliques.sort(key=len)
+print(",".join(sorted(list(cliques[-1]))))
