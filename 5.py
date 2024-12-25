@@ -1,9 +1,9 @@
 #! /usr/bin/env python3
-r, p = open('5.txt').read().split('\n\n')
+r, p = open("5.txt").read().split("\n\n")
 
-rules = [tuple(l.split('|')) for l in r.split('\n')]
+rules = [tuple(l.split("|")) for l in r.split("\n")]
 # rules.sort()
-pages = [l.split(',') for l in p.strip().split('\n')]
+pages = [l.split(",") for l in p.strip().split("\n")]
 
 s = 0
 for pp in pages:

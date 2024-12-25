@@ -4,8 +4,8 @@ from pyrsistent import v, s
 from itertools import groupby
 
 
-f = 'test.20.txt'
-f = '20.input.txt'
+f = "test.20.txt"
+f = "20.input.txt"
 
 m = defaultdict(lambda: None)
 
@@ -13,9 +13,9 @@ for y, l in enumerate(open(f)):
     for x, p in enumerate(l.strip()):
         i = x + y * 1j
         m[i] = p
-        if p == 'S':
+        if p == "S":
             start = i
-        elif p == 'E':
+        elif p == "E":
             end = i
 
 deltas = [-1, 1, -1j, 1j]
@@ -32,7 +32,7 @@ while len(q):
 
     for d in deltas:
         np = p + d
-        if np not in m or np in visited or m[np] == '#':
+        if np not in m or np in visited or m[np] == "#":
             continue
 
         visited.add(np)
@@ -43,7 +43,7 @@ cuts = set()
 
 for p in visited:
     for d, dd in zip(deltas, ddeltas):
-        if m[p + d] == '#' and p + dd in visited:
+        if m[p + d] == "#" and p + dd in visited:
             cuts.add(s(p, p + dd))
 print(len(cuts))
 

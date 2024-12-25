@@ -2,13 +2,13 @@
 from operator import mul, add
 from itertools import product
 
-f = 'test7.txt'
-f = '7.txt'
+f = "test7.txt"
+f = "7.txt"
 
 cases = []
 for l in open(f).readlines():
-    t, v = l.split(':')
-    vv = [int(x) for x in v.strip().split(' ')]
+    t, v = l.split(":")
+    vv = [int(x) for x in v.strip().split(" ")]
     cases.append([int(t), vv])
 
 # part 1

@@ -4,8 +4,8 @@ from dataclasses import dataclass, field
 from copy import copy
 from typing import Any
 
-f = 'test.txt'
-f = '16.txt'
+f = "test.txt"
+f = "16.txt"
 
 
 @dataclass(order=True)
@@ -22,15 +22,15 @@ m = open(f).readlines()
 
 for y, l in enumerate(m):
     for x, c in enumerate(l):
-        if c == 'S':
-            pos = Item(0, y, x, 'E', [(y, x)])
-        if c == 'E':
+        if c == "S":
+            pos = Item(0, y, x, "E", [(y, x)])
+        if c == "E":
             end = (y, x)
 moves = {
-    'E': [(0, 1, 'E'), (-1, 0, 'N'), (1, 0, 'S')],
-    'W': [(-1, 0, 'N'), (0, -1, 'W'), (1, 0, 'S')],
-    'N': [(0, 1, 'E'), (-1, 0, 'N'), (0, -1, 'W')],
-    'S': [(0, 1, 'E'), (0, -1, 'W'), (1, 0, 'S')],
+    "E": [(0, 1, "E"), (-1, 0, "N"), (1, 0, "S")],
+    "W": [(-1, 0, "N"), (0, -1, "W"), (1, 0, "S")],
+    "N": [(0, 1, "E"), (-1, 0, "N"), (0, -1, "W")],
+    "S": [(0, 1, "E"), (0, -1, "W"), (1, 0, "S")],
 }
 
 
@@ -42,13 +42,13 @@ paths = []
 while len(q):
     i = heappop(q)
 
-    if m[i.y][i.x] == 'E':
+    if m[i.y][i.x] == "E":
         paths.append((i.score, i.track))
         continue
 
     for dy, dx, dd in moves[i.d]:
         nx, ny = i.x + dx, i.y + dy
-        if m[ny][nx] == '#':
+        if m[ny][nx] == "#":
             continue
 
         ntrack = copy(i.track)

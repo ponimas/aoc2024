@@ -3,30 +3,30 @@ from collections import defaultdict, namedtuple
 from copy import deepcopy
 from pprint import pprint
 
-f = 'test.6.txt'
-f = '6.txt'
+f = "test.6.txt"
+f = "6.txt"
 
 none = lambda: None
 lab = defaultdict(lambda: defaultdict(none))
 
-point = namedtuple('point', ['x', 'y'])
+point = namedtuple("point", ["x", "y"])
 
 r = open(f).readlines()
 sz = (len(r[0].strip()) - 1, len(r) - 1)
 
 for y, l in enumerate(r):
     for x, p in enumerate(l.strip()):
-        if p == '#':
-            lab[x][y] = '#'
+        if p == "#":
+            lab[x][y] = "#"
             continue
-        if p != '.':
+        if p != ".":
             pos = point(x, y)
             g = p
         lab[x][y] = p
 
 
-deltas = {'>': (1, 0), '<': (-1, 0), '^': (0, -1), 'v': (0, 1)}
-turns = {'>': 'v', '<': '^', '^': '>', 'v': '<'}
+deltas = {">": (1, 0), "<": (-1, 0), "^": (0, -1), "v": (0, 1)}
+turns = {">": "v", "<": "^", "^": ">", "v": "<"}
 
 visited = set()
 
@@ -43,7 +43,7 @@ while True:
     ny = p.y + delta[1]
     nxt = lab[nx][ny]
 
-    if nxt == '#':
+    if nxt == "#":
         d = turns[d]
         continue
 
@@ -62,11 +62,11 @@ c = 0
 
 def print_field(f, o=None):
     for y in range(sz[1] + 1):
-        l = ''
+        l = ""
         for x in range(sz[0] + 1):
             p = f[x][y]
             if o is not None and x == o.x and y == o.y:
-                l += 'O'
+                l += "O"
             else:
                 l += p
         print(l)
@@ -79,7 +79,7 @@ def detect_cycle(obst):
     lab_x = deepcopy(lab)
     visited_x = set()
 
-    lab_x[obst.x][obst.y] = '#'
+    lab_x[obst.x][obst.y] = "#"
 
     d = g
     p = pos
@@ -95,7 +95,7 @@ def detect_cycle(obst):
         ny = p.y + delta[1]
         nxt = lab_x[nx][ny]
 
-        if nxt == '#':
+        if nxt == "#":
             d = turns[d]
             # print('turn', d, o)
             continue
@@ -127,7 +127,7 @@ while True:
     ny = p.y + delta[1]
     nxt = lab[nx][ny]
 
-    if nxt == '#':
+    if nxt == "#":
         d = turns[d]
         continue
 

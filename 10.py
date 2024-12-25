@@ -3,17 +3,17 @@
 from collections import defaultdict, namedtuple, deque
 from copy import copy
 
-f = 'test.txt'
-f = '10.txt'
+f = "test.txt"
+f = "10.txt"
 
 m = defaultdict(lambda: defaultdict(lambda: -1))
 heads = []
-point = namedtuple('point', ['x', 'y'])
+point = namedtuple("point", ["x", "y"])
 
 
 for y, l in enumerate(open(f)):
     for x, p in enumerate(l.strip()):
-        if p == '.':
+        if p == ".":
             p = -1
         else:
             p = int(p)

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 from collections import deque
 
-f = 'test.txt'
-f = '12.txt'
+f = "test.txt"
+f = "12.txt"
 
 with open(f) as fl:
     m = [l.strip() for l in fl]
@@ -13,7 +13,7 @@ visited = [[False for _ in l] for l in m]
 
 p = (0, 0)
 
-deltas = [(-1, 0, 'U'), (1, 0, 'D'), (0, -1, 'L'), (0, 1, 'R')]
+deltas = [(-1, 0, "U"), (1, 0, "D"), (0, -1, "L"), (0, 1, "R")]
 
 positions = deque((y, x) for y in range(len(m)) for x in range(len(m[0])))
 connected = []
@@ -25,7 +25,7 @@ def count_wallls(d, pp):
         p = pp.pop()
         c += 1
         while True:
-            if d in {'U', 'D'}:
+            if d in {"U", "D"}:
                 l = (p[0], p[1] - 1)
                 r = (p[0], p[1] + 1)
                 if l in pp:
@@ -64,7 +64,7 @@ for p in positions:
     component = set([p])
     perimeter = 0
 
-    walls = {'U': [], 'D': [], 'L': [], 'R': []}
+    walls = {"U": [], "D": [], "L": [], "R": []}
 
     while len(q):
         (y, x) = q.popleft()
@@ -86,7 +86,7 @@ for p in positions:
             perimeter += 1
             walls[d].append((y, x))
 
-    total2 += len(component) * sum(count_wallls(d, walls[d]) for d in 'UDRL')
+    total2 += len(component) * sum(count_wallls(d, walls[d]) for d in "UDRL")
     total += len(component) * perimeter
 
 print(total)

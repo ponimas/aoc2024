@@ -5,13 +5,13 @@ from itertools import combinations
 # from pprint import pprint as print
 from pyrsistent import v
 
-f = 'test.23.txt'
-f = '23.input.txt'
+f = "test.23.txt"
+f = "23.input.txt"
 
 g = defaultdict(set)
 
 for l in open(f):
-    a, b = l.strip().split('-')
+    a, b = l.strip().split("-")
     g[a].add(b)
     g[b].add(a)
 
@@ -24,7 +24,7 @@ components = set()
 for c in g.keys():
     for a, b in combinations(g[c], 2):
         if b in g[a]:
-            if 't' in {a[0], b[0], c[0]}:
+            if "t" in {a[0], b[0], c[0]}:
                 components.add(tuple(sorted([a, b, c])))
 
 print(len(components))

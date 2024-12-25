@@ -2,10 +2,10 @@
 import re
 import heapq
 
-f = 'test.txt'
+f = "test.txt"
 # f= '13.txt'
 
-rx = r'.+X\+(?P<xa>\d+), Y\+(?P<ya>\d+)\n.+X\+(?P<xb>\d+), Y\+(?P<yb>\d+)\nPrize: X=(?P<xp>\d+), Y=(?P<yp>\d+)'
+rx = r".+X\+(?P<xa>\d+), Y\+(?P<ya>\d+)\n.+X\+(?P<xb>\d+), Y\+(?P<yb>\d+)\nPrize: X=(?P<xp>\d+), Y=(?P<yp>\d+)"
 
 with open(f) as f:
     machines = [
@@ -15,9 +15,9 @@ with open(f) as f:
 
 spent = 0
 for machine in machines:
-    xa, ya = (machine['xa'], machine['ya'])
-    xb, yb = (machine['xb'], machine['yb'])
-    xp, yp = (machine['xp'], machine['yp'])
+    xa, ya = (machine["xa"], machine["ya"])
+    xb, yb = (machine["xb"], machine["yb"])
+    xp, yp = (machine["xp"], machine["yp"])
 
     p = (0, 0)
     q = [(0, p)]
@@ -72,7 +72,7 @@ print(spent)
 """
 
 
-print('====')
+print("====")
 xp = 10000000012748
 yp = 10000000012176
 
@@ -105,12 +105,12 @@ while True:
 
 # print(d)
 
-print('----', j * xx, xa * c, j * xx + xa * c, xp)
-print('----', j * yy, ya * c, j * yy + ya * c, yp)
+print("----", j * xx, xa * c, j * xx + xa * c, xp)
+print("----", j * yy, ya * c, j * yy + ya * c, yp)
 print(j)
 print(c)
 
 print(yp - yy * j)
 
 if (yp - yy * j) % ya == 0:
-    print('yes')
+    print("yes")

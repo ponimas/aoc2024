@@ -2,22 +2,22 @@
 from collections import deque
 from copy import copy
 
-f = 'test.txt'
+f = "test.txt"
 sz = 6
 bytes_n = 12
 
-f = '18.txt'
+f = "18.txt"
 sz = 70
 bytes_n = 1024
 
 start = (0, 0)
 end = (sz, sz)
 
-m = {(x, y): '.' for x in range(sz + 1) for y in range(sz + 1)}
+m = {(x, y): "." for x in range(sz + 1) for y in range(sz + 1)}
 
 bytes = []
 for l in open(f).readlines():
-    (x, y) = l.split(',')
+    (x, y) = l.split(",")
     bytes.append((int(x), int(y)))
 
 
@@ -28,7 +28,7 @@ visited = set()
 # part 1
 field = copy(m)
 for b in bytes[:bytes_n]:
-    field[b] = '#'
+    field[b] = "#"
 
 while len(q):
     p = q.popleft()
@@ -43,7 +43,7 @@ while len(q):
             continue
         if n in visited:
             continue
-        if field[n] == '#':
+        if field[n] == "#":
             continue
         np = copy(p)
         np.append(n)
@@ -57,7 +57,7 @@ for i in range(1024, len(bytes)):
     q = deque([[start]])
     # print(bytes[:i])
     for b in bytes[:i]:
-        field[b] = '#'
+        field[b] = "#"
     found = False
     while len(q):
         p = q.popleft()
@@ -71,7 +71,7 @@ for i in range(1024, len(bytes)):
                 continue
             if n in visited:
                 continue
-            if field[n] == '#':
+            if field[n] == "#":
                 continue
             np = copy(p)
             np.append(n)

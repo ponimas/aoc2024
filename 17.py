@@ -2,17 +2,17 @@
 import re
 from collections import namedtuple
 
-rx = 'Register A: (?P<A>\d+)\nRegister B: (?P<B>\d+)\nRegister C: (?P<C>\d+)\n\nProgram: (?P<programm>(\d,?)+)\n'
+rx = "Register A: (?P<A>\d+)\nRegister B: (?P<B>\d+)\nRegister C: (?P<C>\d+)\n\nProgram: (?P<programm>(\d,?)+)\n"
 
-state = namedtuple('state', ['a', 'b', 'c', 'pos', 'out'])
+state = namedtuple("state", ["a", "b", "c", "pos", "out"])
 
-f = 'test.txt'
-f = '17.txt'
+f = "test.txt"
+f = "17.txt"
 
 data = re.match(rx, open(f).read()).groupdict()
-initstate = state(int(data['A']), int(data['B']), int(data['C']), 0, [])
+initstate = state(int(data["A"]), int(data["B"]), int(data["C"]), 0, [])
 
-programm = [int(x) for x in data['programm'].split(',')]
+programm = [int(x) for x in data["programm"].split(",")]
 
 
 def combo(x, state):
@@ -76,7 +76,7 @@ while True:
         break
     found = False
     if programm[p:] == s.out[p:]:
-        print('more', dt, p, i)
+        print("more", dt, p, i)
         print(s.out)
         p -= 1
         dt = dt // 32 or 1

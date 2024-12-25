@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 from collections import deque
 
-f = 'test.txt'
-f = 'unsolved/19.input.txt'
+f = "test.txt"
+f = "unsolved/19.input.txt"
 
-towels, patterns = open(f).read().split('\n\n')
+towels, patterns = open(f).read().split("\n\n")
 
-towels = [towel.strip() for towel in towels.split(',')]
-patterns = patterns.strip().split('\n')
+towels = [towel.strip() for towel in towels.split(",")]
+patterns = patterns.strip().split("\n")
 
 cnt = 0
 
@@ -15,7 +15,7 @@ for pattern in patterns:
     q = deque([pattern])
     while len(q):
         p = q.popleft()
-        if p == '':
+        if p == "":
             cnt += 1
             break
         for t in towels:

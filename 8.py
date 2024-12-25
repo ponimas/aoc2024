@@ -2,19 +2,19 @@
 from collections import defaultdict, namedtuple
 from itertools import combinations
 
-f = 'test.txt'
-f = '8.txt'
+f = "test.txt"
+f = "8.txt"
 # m = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: None)))
 
 m = defaultdict(list)
-point = namedtuple('point', ['x', 'y'])
+point = namedtuple("point", ["x", "y"])
 
 max_x, max_y = 0, 0
 
 for y, l in enumerate(open(f)):
     for x, p in enumerate(l.strip()):
         max_x, max_y = x, y
-        if p != '.':
+        if p != ".":
             m[p].append(point(x, y))
 
 

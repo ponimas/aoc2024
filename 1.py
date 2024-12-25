@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 from collections import Counter
 
-data = open('1.txt').readlines()
+data = open("1.txt").readlines()
 a, b = list(), list()
 
 for l in data:
