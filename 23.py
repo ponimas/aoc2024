@@ -2,9 +2,6 @@
 from collections import defaultdict
 from itertools import combinations
 
-# from pprint import pprint as print
-from pyrsistent import pset
-
 f = "test.23.txt"
 f = "23.input.txt"
 
@@ -35,15 +32,15 @@ def bron_kerbosch(R, P, X):
     if not P and not X:
         cliques.append(R)
         return
-    for v in P:
-        bron_kerbosch(R.add(v), P & g[v], X & g[v])
-        P = P.remove(v)
-        X = X.add(v)
+    for v in list(P):
+        bron_kerbosch(R | {v}, P & g[v], X & g[v])
+        P.remove(v)
+        X.add(v)
 
 
-R = pset()
-X = pset()
-P = pset(g.keys())
+R = set()
+X = set()
+P = set(g.keys())
 cliques = []
 
 bron_kerbosch(R, P, X)
