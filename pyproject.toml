@@ -11,5 +11,6 @@ docstring-code-format = true
 ignore = ["E741", "E731"]
 
 [tool.pyright]
+# see https://github.com/microsoft/pyright/blob/main/docs/configuration.md#sample-pyprojecttoml-file
 venvPath = "."
 venv = ".venv"
