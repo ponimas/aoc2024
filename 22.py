@@ -2,6 +2,7 @@
 from math import floor
 from itertools import pairwise, islice
 from collections import deque
+from heapq import heappush, nlargest
 
 f = "test.22.txt"
 f = "22.input.txt"
@@ -47,6 +48,7 @@ print(s)
 
 slopes = ([b - a for a, b in pairwise(p)] for p in prices)
 windows = []
+keys = set()
 
 for i, s in enumerate(slopes):
     ww = sliding_window(s, 4)
@@ -55,16 +57,16 @@ for i, s in enumerate(slopes):
     for j, w in enumerate(ww):
         if w in window:
             continue
+        keys.add(w)
         window[w] = prices[i][j + 4]
     windows.append(window)
 
 maximums = []
 
-for k in windows[0].keys():
+for k in keys:
     w = [w.get(k, 0) for w in windows]
     s = sum(w)
-    maximums.append(s)
-
+    heappush(maximums, s)
 
 # 2174 is too low
-print(max(maximums))
+print(nlargest(1, maximums)[0])
